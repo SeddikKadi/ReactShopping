@@ -11,7 +11,6 @@ class App extends react.Component {
       cartItems:[],
       size:"ALL",
       sort:"",
-    
     }
   }
   

@@ -3,7 +3,6 @@ import formatCurrency from '../util';
 
 export default class Cart extends Component {
     render() {
-        
         const cartItems = this.props.cartItems;
         console.log(cartItems.length)
         return (
