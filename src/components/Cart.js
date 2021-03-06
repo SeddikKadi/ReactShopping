@@ -2,9 +2,35 @@ import React, { Component } from 'react'
 import formatCurrency from '../util';
 
 export default class Cart extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            name:"",
+            email:"",
+            adress:"",
+            showCheckout:false
+        }
+    }
+
+    handleInput=(event)=>{
+        this.setState({
+            [event.target.name]:event.target.value
+        })
+    }
+    createOrder=(event)=>{
+        event.preventDefault();
+        const order={
+            name:this.state.name,
+            email:this.state.email,
+            adress:this.state.adress,
+            cartItems:this.props.cartItems
+        }
+        this.props.createOrder(order)
+    }
+
+
     render() {
         const cartItems = this.props.cartItems;
-        console.log(cartItems.length)
         return (
             <div>
                 {
@@ -36,6 +62,7 @@ export default class Cart extends Component {
                 </div>
 
                 {cartItems.length !==0 &&(
+                    <div>
                                     <div className="cart">
                                     <div className="total">
                                         Total: {
@@ -46,10 +73,47 @@ export default class Cart extends Component {
                                         )}
                                     </div>
                                   
-                                    <button className="button primary">
+                                    <button className="button primary" onClick={()=>{
+                                                                                    this.setState({showCheckout:true})  
+                                                                                }}>
                                             Proceed
                                     </button>
                                 </div>
+                                <div>
+                                     {this.state.showCheckout==true &&(
+                                        <div className="cart">
+                                            <form onSubmit={this.createOrder}>
+                                                <ul className="form-container">
+                                                    <li>
+                                                        <label>Email</label>
+                                                        <input name="email" type="email" onChange={this.handleInput}>
+
+                                                        </input>
+                                                    </li>
+                                                    <li>
+                                                        <label>Name</label>
+                                                        <input name="name" type="text" onChange={this.handleInput}>
+                                                            
+                                                        </input>
+                                                    </li>
+                                                    <li>
+                                                        <label>Adress</label>
+                                                        <input name="adress" type="text" onChange={this.handleInput}>
+                                                            
+                                                        </input>
+                                                    </li>
+                                                    <li>
+                                                        <button className="button primary" type="submit">Checkout</button>
+                                                    </li>
+                                                </ul>
+                                            </form>
+                                        </div>
+                                      )}
+                                </div>
+                    </div>
+
+                                
+                               
                 )}
 
                 
