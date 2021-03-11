@@ -88,7 +88,6 @@ footer{
 .product img{
   max-width: 37rem;
   max-height: 37rem;
-  margin-top:5rem
 }
 .product price{
   display: flex;
@@ -205,4 +204,7 @@ input{
   right: 1rem;
   top:2.5rem;
   z-index: 1000;
+}
+.product-box{
+  margin-bottom: 3rem;
 }

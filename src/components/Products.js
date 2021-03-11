@@ -26,9 +26,9 @@ export default class products extends Component {
                 <Fade bottom cascade>
                     <ul className="products">
                         {this.props.products.map(product=>(
-                            <li key={product._id}>
+                            <li key={product._id} className="product-box">
                                 <div className="product">
-                                    <a href={"#"+product._id}>
+                                    <a href={"#"+product._id} className="image-product">
                                         <img src={product.image} alt={product.title} onClick={()=>this.openModal(product)}>
                                             
                                         </img>
