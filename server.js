@@ -28,6 +28,7 @@ mongoose.connect( "mongodb+srv://seddik:Seddik1992@cluster0.cnnmw.mongodb.net/te
   );
   app.get("/api/products", async (req, res) => {
     const products = await Product.find({});
+
     res.send(products);
   });
   app.post("/api/products", async (req, res) => {
