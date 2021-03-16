@@ -1,4 +1,5 @@
-import {FETCH_PRODUCTS, ORDER_PRODUCTS_BY_PRICE, FILTER_PRODUCTS_BY_SIZE}from "../types"
+import {FETCH_PRODUCTS, ORDER_PRODUCTS_BY_PRICE, FILTER_PRODUCTS_BY_SIZE, SELECT_RANGE_PRICE}from "../types"
+import { selectItems,sortItems,filterItems } from "../util";
 
 export const fetchProducts=()=>async(dispatch)=>{
     const res=await fetch("/api/products");
@@ -9,41 +10,61 @@ export const fetchProducts=()=>async(dispatch)=>{
         payload:data
     })
 };
-export const filterProducts=(products,size)=>(dispatch)=>{
-    const filteredProducts = size == "ALL" ? products
-                                        :products.filter((x)=>x.availableSizes.indexOf(size)>=0)
+export const filterProducts=(size)=>(dispatch,getState)=>{
 
+    const items=getState().products.items.slice();
+  
+   const selectedElements=selectItems(items,getState().products.minMax);
+
+   const filteredElements=filterItems(selectedElements,size)
    
+   const sortedElements=sortItems(filteredElements,getState().products.sort);
 
     dispatch({
         type:FILTER_PRODUCTS_BY_SIZE,
         payload:{
             size:size,
-            items:filteredProducts,
+            items:sortedElements,
         }
     })
 }
-export const sortProducts=(filteredProducts,sort)=>(dispatch)=>{
-    const sortedProducts=filteredProducts.slice();
-    if (sort === "latest") {
-        sortedProducts.sort((a, b) => (a._id > b._id ? 1 : -1));
-      } else {
-        sortedProducts.sort((a, b) =>
-          sort === "lowest"
-            ? a.price > b.price
-              ? 1
-              : -1
-            : a.price > b.price
-            ? -1
-            : 1
-        );
-      }
-      
+
+export const sortProducts=(sort)=>(dispatch,getState)=>{
+    const filteredProducts=getState().products.filteredItems.slice();
+    
+      const sortedItems=sortItems(filteredProducts,sort)
     dispatch({
         type:ORDER_PRODUCTS_BY_PRICE,
         payload:{
             sort:sort,
-            items:sortedProducts
+            items:sortedItems
         }
+    })
+}
+
+
+export const selectProducts=(e,newValue)=>(dispatch,getState)=>{
+
+
+
+    
+    const items = getState().products.items.slice();
+
+    const filteredElements=selectItems(items,newValue);
+
+    console.log(getState().products)
+    
+    const selectElements=filterItems(filteredElements,getState().products.size)
+    
+    const sortedElements=sortItems(selectElements,getState().products.sort);
+
+    
+    dispatch({
+        type:SELECT_RANGE_PRICE,
+        payload:{
+            minMax:newValue,
+            items:sortedElements
+        }
+        
     })
 }
