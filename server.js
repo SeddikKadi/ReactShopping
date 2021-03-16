@@ -40,5 +40,50 @@ mongoose.connect( "mongodb+srv://seddik:Seddik1992@cluster0.cnnmw.mongodb.net/te
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
     res.send(deletedProduct);
   });
+  const Order = mongoose.model(
+    "order",
+    new mongoose.Schema(
+      {
+        _id: {
+          type: String,
+          default: shortid.generate,
+        },
+        email: String,
+        name: String,
+        address: String,
+        total: Number,
+        cartItems: [
+          {
+            _id: String,
+            title: String,
+            price: Number,
+            count: Number,
+          },
+        ],
+      },
+      {
+        timestamps: true,
+      }
+    )
+  );
+  
+  app.post("/api/orders", async (req, res) => {
+    if (
+      !req.body.name ||
+      !req.body.email ||
+      !req.body.adress ||
+      !req.body.total ||
+      !req.body.cartItems
+    ) {
+     
+
+      return res.send({ message: "Data is required." });
+    }
+
+    console.log(req.body)
+    const order = await Order(req.body).save();
+    res.send(order);
+  });
+
   const port = 5000;
 app.listen(port, () => console.log("serve at http://localhost:5000"));
