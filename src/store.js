@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 import { cartReducer } from "./reducers/cartReducer";
 import { orderReducer } from "./reducers/orderReducers";
 import {productsReducer} from "./reducers/productReducers"
-const initialState={};
+const initialState={products:{minMax:[0,100],size:"ALL",sort:"latest"},};
 const composeEnheancer=window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store=createStore(combineReducers({
     products:productsReducer,

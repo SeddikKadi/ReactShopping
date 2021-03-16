@@ -5,6 +5,7 @@ import Filter from "./components/Filter"
 import Cart from "./components/Cart"
 import Store from "./store"
 import {Provider} from "react-redux"
+
 class App extends react.Component {
   render(){
 
@@ -39,5 +40,6 @@ class App extends react.Component {
   }
 
 }
+
 
 export default App;
